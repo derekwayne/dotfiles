@@ -1,0 +1,99 @@
+ " manage plugins using pathogen
+call pathogen#infect()
+syntax on
+call pathogen#helptags()
+filetype plugin indent on
+
+ " numbered lines
+set nu
+ " Shows the ruler for the cursor
+set ru
+ " Show the input of an *incomplete* command
+set sc
+set showcmd
+ " enabling features which are not Vi compatible
+set nocp
+ " a tab if four spaces
+set tabstop=4
+ " true colour support
+ set termguicolors
+
+set autoindent    " always set autoindenting on
+set copyindent    " copy the previous indentation on autoindenting
+set shiftwidth=4  " number of spaces to use for autoindenting
+set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
+set showmatch     " set show matching parenthesis
+set ignorecase    " ignore case when searching
+set smartcase     " ignore case if search pattern is all lowercase,
+                    "    case-sensitive otherwise
+set smarttab      " insert tabs on the start of a line according to
+                    "    shiftwidth, not tabstop
+set hlsearch      " highlight search terms
+set incsearch     " show search matches as you type
+set history=1000         " remember more commands and search history
+set undolevels=1000      " use many muchos levels of undo
+set title                " change the terminal's title
+set visualbell           " don't beep
+set noerrorbells         " don't beep
+set t_vb=                " don't blink
+
+
+set guifont=Monospace\ 12
+" word wrap without linebreaks
+set wrap
+set linebreak
+set nolist
+
+" mappings to traverse the buffer list
+noremap <silent> [b :bprevious<CR>
+noremap <silent> ]b :bnext<CR>
+noremap <silent> [B :bfirst<CR>
+noremap <silent> ]B :blast<CR>
+
+" smart pasting
+set pastetoggle=<F2>
+
+" use two spaces instead of tabs and when deleting, back up by tabs
+set tabstop=2 
+set shiftwidth=2 
+set expandtab
+set softtabstop=2
+set autoindent
+
+" Always use the same virtualenv for vim, regardless of what Python
+" environment is loaded in the shell from which vim is launched
+let g:vim_virtualenv_path = '/home/derek/.virtualenvs/vim_virtualenv'
+if exists('g:vim_virtualenv_path')
+     pythonx import os; import vim
+     pythonx activate_this = os.path.join(vim.eval('g:vim_virtualenv_path'), 'bin/activate_this.py')
+    pythonx with open(activate_this) as f: exec(f.read(), {'__file__': activate_this})
+endif
+
+"------------------------------------------------------------------
+"Jupyter Key Bindings
+"------------------------------------------------------------------
+" prevent the default key bindings being made for jupyter
+let g:jupyter_mapkeys = 0
+" let localleader = ","
+" Run current file
+nnoremap <buffer> <silent> <localleader>R :JupyterRunFile<CR>
+nnoremap <buffer> <silent> <localleader>I :JupyterImportThisFile<CR>
+
+" Change to directory of current file
+nnoremap <buffer> <silent> <localleader>d :JupyterCd %:p:h<CR>
+
+" Send a selection of lines
+nnoremap <buffer> <silent> <localleader>X :JupyterSendCell<CR>
+nnoremap <buffer> <silent> <localleader>E :JupyterSendRange<CR>
+nmap     <buffer> <silent> <localleader>e <Plug>JupyterRunTextObj
+vmap     <buffer> <silent> <localleader>e <Plug>JupyterRunVisual
+
+nnoremap <buffer> <silent> <localleader>U :JupyterUpdateShell<CR>
+
+" Debugging maps
+nnoremap <buffer> <silent> <localleader>b :PythonSetBreak<CR>
+"------------------------------------------------------------------
+colorscheme gruvbox
+set background=dark
+let g:gruvbox_contrast_dark = "soft"
+let g:gruvbox_termcolors = '256'
