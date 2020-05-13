@@ -72,6 +72,15 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
+
+# Import colorscheme from 'wal' asynchronously
+# &   # Run the process in the background.
+# ( ) # Hide shell job control messages.
+(cat ~/.cache/wal/sequences &)
+
+# Alternative (blocks terminal for 0-3ms)
+cat ~/.cache/wal/sequences
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -109,9 +118,6 @@ welcome() {
     #------WELCOME MESSAGE---------------------
     # customize this first message with a message of your choice.
     # this will display the username, date, time, a calendar, the amount of users, and the up time.
-    #clear
-    # Gotta love ASCII art with figlet
-    figlet "Welcome, " $USER;
     #toilet "Welcome, " $USER;
     echo -e ""; cal ;
     echo -ne "Today is "; date #date +"Today is %A %D, and it is now %R"
@@ -181,7 +187,7 @@ alias trash='mv -t ~/.local/share/Trash/files'
 #show most popular commands
 alias top-commands='history | awk "{print $2}" | awk "{print $1}" |sort|uniq -c | sort -rn | head -10'
 #alias top-commands='history | awk "{print $2}" | awk "BEGIN {FS="|"} {print $1}" |sort|uniq -c | sort -rn | head -10'
-alias config='/usr/bin/git --git-dir=/home/derek/.myconfig/ --work-tree=/home/derek'
+alias config='/usr/bin/git --git-dir=/home/derek/.cfg/ --work-tree=/home/derek'
 alias gotop='gotop-cjbassi' # systems monitoring like top
 
 # enable vi keys/commands instead of emacs keys/commands
@@ -204,27 +210,12 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-# virtualenvwrapper
-export WORKON_HOME=~/.virtualenvs
-export VIRTUALENVWRAPPER_PYTHON=/home/derek/anaconda3/bin/python3
-. /usr/local/bin/virtualenvwrapper.sh
-# Path to Java compiler
-JAVA_HOME=/usr/lib/jvm/default-java
-export PATH=$PATH:$JAVA_HOME/bin/
-
-# Path to Spark
-export SPARK_HOME=/home/derek/spark-3.0.0-preview-bin-hadoop2.7
-export PATH=$PATH:$SPARK_HOME/bin
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/derek/.sdkman"
-[[ -s "/home/derek/.sdkman/bin/sdkman-init.sh" ]] && source "/home/derek/.sdkman/bin/sdkman-init.sh"
-
 # 256-color gruvbox palette shellscript
 source /home/derek/.vim/bundle/gruvbox/gruvbox_256palette.sh .zshrc
 
 # XCLIP
 alias setclip="xclip -selection c"
 alias getclip="xclip -selection c -o"
-# Home directory binaries
-export PATH=$PATH:~/bin
+
+export PATH=$PATH:/home/derek/.local/bin
+

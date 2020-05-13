@@ -1,5 +1,16 @@
  " manage plugins using pathogen
-call pathogen#infect()
+ " call pathogen#infect()
+ " manage plugins using vim-plug (avoiding submodules)
+call plug#begin('~/.vim/bundle')
+
+ " Declare the list of plugins.
+Plug 'morhetz/gruvbox'
+Plug 'Raimondi/delimitMate'
+Plug 'ycm-core/YouCompleteMe'
+
+ " List ends here. Plugins become visible to Vim after this call.
+call plug#end()
+
 syntax on
 call pathogen#helptags()
 filetype plugin indent on
@@ -60,39 +71,6 @@ set expandtab
 set softtabstop=2
 set autoindent
 
-" Always use the same virtualenv for vim, regardless of what Python
-" environment is loaded in the shell from which vim is launched
-let g:vim_virtualenv_path = '/home/derek/.virtualenvs/vim_virtualenv'
-if exists('g:vim_virtualenv_path')
-     pythonx import os; import vim
-     pythonx activate_this = os.path.join(vim.eval('g:vim_virtualenv_path'), 'bin/activate_this.py')
-    pythonx with open(activate_this) as f: exec(f.read(), {'__file__': activate_this})
-endif
-
-"------------------------------------------------------------------
-"Jupyter Key Bindings
-"------------------------------------------------------------------
-" prevent the default key bindings being made for jupyter
-let g:jupyter_mapkeys = 0
-" let localleader = ","
-" Run current file
-nnoremap <buffer> <silent> <localleader>R :JupyterRunFile<CR>
-nnoremap <buffer> <silent> <localleader>I :JupyterImportThisFile<CR>
-
-" Change to directory of current file
-nnoremap <buffer> <silent> <localleader>d :JupyterCd %:p:h<CR>
-
-" Send a selection of lines
-nnoremap <buffer> <silent> <localleader>X :JupyterSendCell<CR>
-nnoremap <buffer> <silent> <localleader>E :JupyterSendRange<CR>
-nmap     <buffer> <silent> <localleader>e <Plug>JupyterRunTextObj
-vmap     <buffer> <silent> <localleader>e <Plug>JupyterRunVisual
-
-nnoremap <buffer> <silent> <localleader>U :JupyterUpdateShell<CR>
-
-" Debugging maps
-nnoremap <buffer> <silent> <localleader>b :PythonSetBreak<CR>
-"------------------------------------------------------------------
 colorscheme gruvbox
 set background=dark
 let g:gruvbox_contrast_dark = "soft"
